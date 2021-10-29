@@ -4,9 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +22,14 @@ import tacos.Taco;
 @Controller // 해당 클래스를 찾은 후 스프링 어플리케이션 컨텍스트의 빈으로 글래스의 인스턴스를 자동 생성.
 @RequestMapping("/design") // 해당클래스가 처리하는 요청의 종류를 나타냄.
 public class DesignTacoController {
+
+	private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
+		// TODO Auto-generated method stub
+		return ingredients
+				.stream()
+				.filter(x -> x.getType().equals(type))
+				.collect(Collectors.toList());
+	}
 	
 	@GetMapping
 	public String showDesignForm(Model model) { // Model: 컨트롤러와 데이터를 보여주는 뷰 사이에서 데이터를 운반하는 객체.
@@ -45,13 +57,16 @@ public class DesignTacoController {
 		return "design";
 		
 	}
-
-	private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
-		// TODO Auto-generated method stub
-		return ingredients
-				.stream()
-				.filter(x -> x.getType().equals(type))
-				.collect(Collectors.toList());
+	
+	@PostMapping
+	public String processDesign(@Valid Taco design, Errors errors) {
+		if(errors.hasErrors()) {
+			return "design";
+		}
+		
+		log.info("Processing design: " +design);
+		
+		return "redirect:/orders/current";
 	}
 
 }
