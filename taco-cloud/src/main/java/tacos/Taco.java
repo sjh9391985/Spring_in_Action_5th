@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class Taco {
 	
+	private Long id;
+	private Data createdAt;
+	
 	@NotNull
 	@Size(min=5, message="Name must be at least 5 characters long")
 	private String name;
