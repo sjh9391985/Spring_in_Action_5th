@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import tacos.Ingredient;
 
- 
+@Repository
 public class JdbcIngredientRepository implements IngredientRepository {
 	
 	private JdbcTemplate jdbc;
