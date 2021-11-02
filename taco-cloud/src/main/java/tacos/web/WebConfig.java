@@ -14,6 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/").setViewName("home");
 
 	}
-	
+	// 뷰 컨트롤러 역할을 수행하는 클래스.
 	
 }
